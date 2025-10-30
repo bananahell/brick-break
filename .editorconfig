@@ -101,3 +101,5 @@ dotnet_style_parentheses_in_other_operators = always_for_clarity:warning
 dotnet_analyzer_diagnostic.severity = warning
 dotnet_diagnostic.IDE2001.severity = silent
 dotnet_diagnostic.IDE2002.severity = silent
+dotnet_diagnostic.IDE0130.severity = none
+dotnet_diagnostic.CA1050.severity = none
