@@ -30,8 +30,6 @@ public class Player : MonoBehaviour {
             this.isCollidingLeft = true;
         } else if (collider.gameObject.name == Globals.RightWallString) {
             this.isCollidingRight = true;
-        } else {
-            Debug.Log("Collided with ball?");
         }
     }
 
@@ -40,8 +38,6 @@ public class Player : MonoBehaviour {
             this.isCollidingLeft = false;
         } else if (collider.gameObject.name == Globals.RightWallString) {
             this.isCollidingRight = false;
-        } else {
-            Debug.Log("Uncollided with ball?");
         }
     }
 

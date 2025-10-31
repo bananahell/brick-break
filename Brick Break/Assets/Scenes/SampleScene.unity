@@ -628,8 +628,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 10
-  leftWall: {fileID: 441793806}
-  rightWall: {fileID: 1655971478}
 --- !u!50 &827755843
 Rigidbody2D:
   serializedVersion: 5
@@ -638,7 +636,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 827755839}
-  m_BodyType: 2
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -861,6 +859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7cf771d70972f071a3b1001178cfe96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballSpeed: 6
 --- !u!50 &1176997702
 Rigidbody2D:
   serializedVersion: 5
@@ -869,7 +868,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176997697}
-  m_BodyType: 2
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

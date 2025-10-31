@@ -6,8 +6,11 @@ public class Ball : MonoBehaviour {
 
     [SerializeField]
     private float ballSpeed = 10;
+    [SerializeField]
+    private float speedIncrement = 1.03f;
 
     private Rigidbody2D rb2D;
+    private Vector2 currSpeed;
 
     private float horSpeed;
     private float verSpeed;
@@ -15,23 +18,47 @@ public class Ball : MonoBehaviour {
     private void Start() {
         this.rb2D = this.GetComponent<Rigidbody2D>();
         // Start moving by 30 degree rotation
-        float sqrt3 = 1.73205080756887729f;
         this.horSpeed = this.ballSpeed / 2;
-        this.verSpeed = -(this.ballSpeed * sqrt3 / 2);
+        this.verSpeed = -(this.ballSpeed * Globals.Sqrt3By2);
+        this.currSpeed = new(this.horSpeed, this.verSpeed);
     }
 
     private void FixedUpdate() {
-        Vector2 speed = new(this.horSpeed, this.verSpeed);
-        this.rb2D.MovePosition(this.rb2D.position + (speed * Time.fixedDeltaTime));
+        this.currSpeed = new(this.horSpeed, this.verSpeed);
+        this.rb2D.MovePosition(this.rb2D.position + (this.currSpeed * Time.fixedDeltaTime));
     }
 
     private void OnTriggerEnter2D(Collider2D collider) {
-        Debug.Log(collider.gameObject.name);
-        if (collider.gameObject.name is Globals.PlayerString or Globals.CeilingString) {
-            this.verSpeed *= -1;
+        // Vector2 normal = collision.contacts[0].normal;
+        if (collider.gameObject.name is Globals.PlayerString) {
+            this.HitPlayer();
+        }
+        if (collider.gameObject.name is Globals.CeilingString) {
+            this.verSpeed *= -this.speedIncrement;
         }
         if (collider.gameObject.name is Globals.LeftWallString or Globals.RightWallString) {
-            this.horSpeed *= -1;
+            this.horSpeed *= -this.speedIncrement;
+        }
+    }
+
+    private void HitPlayer() {
+        this.verSpeed *= -this.speedIncrement;
+        float moveInput = Input.GetAxis("Horizontal");
+        if (moveInput == 0) {
+            return;
+        }
+        if (moveInput < 0) {
+            if (this.horSpeed < 0) {
+                this.horSpeed *= this.speedIncrement;
+            } else {
+                this.verSpeed *= this.speedIncrement;
+            }
+        } else {
+            if (this.horSpeed > 0) {
+                this.horSpeed *= this.speedIncrement;
+            } else {
+                this.verSpeed *= this.speedIncrement;
+            }
         }
     }
 
