@@ -25,18 +25,18 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collider) {
-        if (collider.gameObject.name == Globals.LeftWallString) {
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.collider.gameObject.name == Globals.LeftWallString) {
             this.isCollidingLeft = true;
-        } else if (collider.gameObject.name == Globals.RightWallString) {
+        } else if (collision.collider.gameObject.name == Globals.RightWallString) {
             this.isCollidingRight = true;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collider) {
-        if (collider.gameObject.name == Globals.LeftWallString) {
+    private void OnCollisionExit2D(Collision2D collision) {
+        if (collision.collider.gameObject.name == Globals.LeftWallString) {
             this.isCollidingLeft = false;
-        } else if (collider.gameObject.name == Globals.RightWallString) {
+        } else if (collision.collider.gameObject.name == Globals.RightWallString) {
             this.isCollidingRight = false;
         }
     }

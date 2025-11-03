@@ -8,57 +8,52 @@ public class Ball : MonoBehaviour {
     private float ballSpeed = 10;
     [SerializeField]
     private float speedIncrement = 1.03f;
+    [SerializeField]
+    private GameObject player;
 
     private Rigidbody2D rb2D;
     private Vector2 currSpeed;
 
-    private float horSpeed;
-    private float verSpeed;
-
     private void Start() {
         this.rb2D = this.GetComponent<Rigidbody2D>();
         // Start moving by 30 degree rotation
-        this.horSpeed = this.ballSpeed / 2;
-        this.verSpeed = -(this.ballSpeed * Globals.Sqrt3By2);
-        this.currSpeed = new(this.horSpeed, this.verSpeed);
+        this.currSpeed = new(this.ballSpeed / 2, -(this.ballSpeed * Globals.Sqrt3By2));
     }
 
     private void FixedUpdate() {
-        this.currSpeed = new(this.horSpeed, this.verSpeed);
         this.rb2D.MovePosition(this.rb2D.position + (this.currSpeed * Time.fixedDeltaTime));
     }
 
-    private void OnTriggerEnter2D(Collider2D collider) {
-        // Vector2 normal = collision.contacts[0].normal;
-        if (collider.gameObject.name is Globals.PlayerString) {
-            this.HitPlayer();
-        }
-        if (collider.gameObject.name is Globals.CeilingString) {
-            this.verSpeed *= -this.speedIncrement;
-        }
-        if (collider.gameObject.name is Globals.LeftWallString or Globals.RightWallString) {
-            this.horSpeed *= -this.speedIncrement;
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.collider.gameObject.name is Globals.PlayerString) {
+            this.HitPlayer(collision);
+        } else {
+            this.BounceOffNormal(collision.contacts[0].normal);
         }
     }
 
-    private void HitPlayer() {
-        this.verSpeed *= -this.speedIncrement;
-        float moveInput = Input.GetAxis("Horizontal");
-        if (moveInput == 0) {
-            return;
-        }
-        if (moveInput < 0) {
-            if (this.horSpeed < 0) {
-                this.horSpeed *= this.speedIncrement;
-            } else {
-                this.verSpeed *= this.speedIncrement;
-            }
+    private void BounceOffNormal(Vector2 normal) {
+        float dot = (this.currSpeed.x * normal.x) + (this.currSpeed.y * normal.y);
+        this.currSpeed.x -= 2 * dot * normal.x;
+        this.currSpeed.y -= 2 * dot * normal.y;
+    }
+
+    private void HitPlayer(Collision2D collision) {
+        // (h = sqrt(x^2 + y^2)) * increment
+        float speed = Mathf.Sqrt(Mathf.Pow(this.currSpeed.x, 2) + Mathf.Pow(this.currSpeed.y, 2)) * this.speedIncrement;
+        if (collision.contacts[0].normal.x == 0 && collision.contacts[0].normal.y == 1) {
+            float playerHalfWidth = this.player.GetComponent<Collider2D>().bounds.size.x / 2;
+            float playerPosition = this.player.GetComponent<Collider2D>().bounds.center.x;
+            float diffPercent = (playerPosition - collision.contacts[0].point.x) / playerHalfWidth;
+            float angle = Globals.Pi8Over18 * diffPercent;
+            this.currSpeed.x = Mathf.Sin(angle) * speed * -1;
+            this.currSpeed.y = Mathf.Cos(angle) * speed * -1;
+            this.BounceOffNormal(collision.contacts[0].normal);
         } else {
-            if (this.horSpeed > 0) {
-                this.horSpeed *= this.speedIncrement;
-            } else {
-                this.verSpeed *= this.speedIncrement;
-            }
+            float angle = Mathf.Atan(this.currSpeed.x / this.currSpeed.y);
+            this.currSpeed.x = Mathf.Sin(angle) * speed * -1;
+            this.currSpeed.y = Mathf.Cos(angle) * speed;
+            this.BounceOffNormal(collision.contacts[0].normal);
         }
     }
 
