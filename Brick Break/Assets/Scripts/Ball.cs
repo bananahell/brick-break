@@ -39,7 +39,7 @@ public class Ball : MonoBehaviour {
     }
 
     private void HitPlayer(Collision2D collision) {
-        // (h = sqrt(x^2 + y^2)) * increment
+        // (speed = sqrt(x^2 + y^2)) * increment
         float speed = Mathf.Sqrt(Mathf.Pow(this.currSpeed.x, 2) + Mathf.Pow(this.currSpeed.y, 2)) * this.speedIncrement;
         if (collision.contacts[0].normal.x == 0 && collision.contacts[0].normal.y == 1) {
             float playerHalfWidth = this.player.GetComponent<Collider2D>().bounds.size.x / 2;
