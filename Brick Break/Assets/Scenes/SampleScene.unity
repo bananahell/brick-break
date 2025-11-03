@@ -295,18 +295,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Brick
       objectReference: {fileID: 0}
-    - target: {fileID: 3101771759308201020, guid: 6c9b69b24b43ecadd90f9789d7fd4b85, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3101771759308201020, guid: 6c9b69b24b43ecadd90f9789d7fd4b85, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3101771759308201020, guid: 6c9b69b24b43ecadd90f9789d7fd4b85, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
