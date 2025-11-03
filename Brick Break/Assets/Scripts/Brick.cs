@@ -17,7 +17,7 @@ public class Brick : MonoBehaviour {
             Destroy(this.gameObject);
         } else {
             float gbValue = (this.currBrickHealth - 1) / this.totalBrickHealth;
-            Transform visual = this.transform.Find("Visual");
+            Transform visual = this.transform.Find(Globals.VisualString);
             if (visual != null) {
                 Debug.Log("Found it!");
                 visual.GetComponent<SpriteRenderer>().color = new Color(1f, gbValue, gbValue);

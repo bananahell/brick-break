@@ -14,6 +14,8 @@ public static class Globals {
     public const string PlayerString = "Player";
     public const string BallString = "Ball";
 
+    public const string VisualString = "Visual";
+
     public const float Pi = 3.14159265358979323846f;
     public const float HalfPi = 1.57079632679489661923f;
     public const float Pi8Over18 = 1.39626340159546366153f;
